@@ -60,6 +60,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Caches\CacheContainer.cs" />
+    <Compile Include="Caches\CacheItem.cs" />
     <Compile Include="Compilers\FileSource.cs" />
     <Compile Include="Compilers\FileReference.cs" />
     <Compile Include="Compilers\IProject.cs" />
