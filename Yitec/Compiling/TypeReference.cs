@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Yitec.Compilers
+namespace Yitec.Compiling
 {
     public class TypeReference : FileReference
     {

@@ -8,9 +8,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Yitec.Compilers
+namespace Yitec.Compiling
 {
-    public class Project : Yitec.Compilers.IProject
+    public class Project : Yitec.Compiling.IProject
     {
         public Project(string name=null) {
             this._References = new List<IReference>();

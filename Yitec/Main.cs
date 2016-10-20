@@ -21,7 +21,7 @@ namespace APISampleUnitTestsCS
     }  
 }".Replace("$", expression);
 
-            var proj = new Yitec.Compilers.Project("calc1.dll");
+            var proj = new Yitec.Compiling.Project("calc1.dll");
             proj.WithReference(typeof(object));
             proj.AddTextSource(text);
             var compiledAssembly1 = proj.CompileToAssembly();

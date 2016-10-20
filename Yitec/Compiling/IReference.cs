@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Yitec.Compilers
+namespace Yitec.Compiling
 {
     public interface IReference : IEquatable<IReference>
     {

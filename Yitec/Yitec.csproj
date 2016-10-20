@@ -60,19 +60,45 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Caches\CacheContainer.cs" />
+    <Compile Include="ActionAttribute.cs" />
+    <Compile Include="Caches\Cache.cs" />
+    <Compile Include="Caches\Cache`1.cs" />
+    <Compile Include="Caches\CachePool.cs" />
     <Compile Include="Caches\CacheItem.cs" />
-    <Compile Include="Compilers\FileSource.cs" />
-    <Compile Include="Compilers\FileReference.cs" />
-    <Compile Include="Compilers\IProject.cs" />
-    <Compile Include="Compilers\ProjectReference.cs" />
-    <Compile Include="Compilers\ISource.cs" />
-    <Compile Include="Compilers\IReference.cs" />
-    <Compile Include="Compilers\Project.cs" />
-    <Compile Include="Compilers\TextSource.cs" />
-    <Compile Include="Compilers\TypeReference.cs" />
+    <Compile Include="Caches\ICache.cs" />
+    <Compile Include="Compiling\FileSource.cs" />
+    <Compile Include="Compiling\FileReference.cs" />
+    <Compile Include="Compiling\IProject.cs" />
+    <Compile Include="Compiling\ProjectReference.cs" />
+    <Compile Include="Compiling\ISource.cs" />
+    <Compile Include="Compiling\IReference.cs" />
+    <Compile Include="Compiling\Project.cs" />
+    <Compile Include="Compiling\TextSource.cs" />
+    <Compile Include="Compiling\TypeReference.cs" />
+    <Compile Include="ContentType.cs" />
+    <Compile Include="Controller\CommandBuilder.cs" />
+    <Compile Include="Controller\CommandFactory.cs" />
+    <Compile Include="Controller\Context.cs" />
+    <Compile Include="Controller\Dispacher.cs" />
+    <Compile Include="Controller\IArguments.cs" />
+    <Compile Include="Controller\IParameterBinder.cs" />
+    <Compile Include="Controller\IParameterBinderTypeFactory.cs" />
+    <Compile Include="Controller\ICommand.cs" />
+    <Compile Include="Controller\ICommandFactory.cs" />
+    <Compile Include="Controller\ICommandLoader.cs" />
+    <Compile Include="Controller\IControllerFactoryFactory.cs" />
+    <Compile Include="Controller\IDispacher.cs" />
+    <Compile Include="Controller\IRequest.cs" />
+    <Compile Include="Controller\IResponse.cs" />
+    <Compile Include="Controller\Request.cs" />
+    <Compile Include="Controller\RouteData.cs" />
+    <Compile Include="EnumType.cs" />
+    <Compile Include="HttpDataTypes.cs" />
+    <Compile Include="HttpMethods.cs" />
     <Compile Include="IAssembly.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="NonActionAttribute.cs" />
+    <Compile Include="NullableType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Yitec.Compilers
+namespace Yitec.Compiling
 {
     public interface IProject
     {

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Yitec.Compilers
+namespace Yitec.Online
 {
-    public interface ISource :IEquatable<ISource>
+    public class UserList
     {
-        string GetContent();
+
     }
 }
