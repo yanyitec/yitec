@@ -40,11 +40,11 @@ namespace Yitec.Controller
         protected abstract Task<RouteData> RouteAsync(IRequest request, Context context);
         protected abstract Task<IArguments> CreateArgumentsAsync(IRequest request, RouteData routeData, Context context);
 
-        protected virtual ICommand GetOrCreateCommand(RouteData routeData,HttpMethods method,Context context) {
+        protected virtual IAction GetOrCreateCommand(RouteData routeData,HttpMethods method,Context context) {
             return this.CommandFactory.GetOrCreateCommand(routeData,method,context);
         }
 
-        protected virtual object GetOrCreateController(ICommand cmd,RouteData routeData,Context context) {
+        protected virtual object GetOrCreateController(IAction cmd,RouteData routeData,Context context) {
             return null;
             //return this.ControllerFactory(cmd, routeData, context);
         }
@@ -67,9 +67,9 @@ namespace Yitec.Controller
 
             //创建参数
             var args = context.Arguments = await this.CreateArgumentsAsync(context.Request, context.RouteData, context);
-
+            return null;
             //执行并返回结果
-            return context.Result = await context.Command.ExecuteAsync(context.ControllerInstance , context.Arguments,context.Request, context);
+            //return context.Result = await context.Command.ExecuteAsync(context.ControllerInstance , context.Arguments,context.Request, context);
         }
 
         

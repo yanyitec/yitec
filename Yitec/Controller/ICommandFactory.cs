@@ -8,7 +8,7 @@ namespace Yitec.Controller
 {
     public interface ICommandFactory
     {
-        ICommand GetOrCreateCommand(RouteData routeData,HttpMethods method,Context context);
+        IAction GetOrCreateCommand(RouteData routeData,HttpMethods method,Context context);
 
         
     }

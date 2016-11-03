@@ -22,7 +22,7 @@ namespace Yitec.Controller
 
         public IArguments Arguments { get; set; }
 
-        public ICommand Command { get; set; }
+        public IAction Command { get; set; }
 
         public object ControllerInstance { get; set; }
 

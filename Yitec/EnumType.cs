@@ -25,5 +25,15 @@ namespace Yitec
                 return Enum.TryParse<T>(input,true,out value);
             }
         }
+
+        public static object ParseEnum(Type type, string input) {
+            var val = Enum.Parse(type, input);
+            if (val != null) return val;
+            int enumValue = 0;
+            if (int.TryParse(input, out enumValue)) {
+                return Enum.ToObject(type, enumValue);
+            }
+            return null;
+        }
     }
 }

@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Yitec
 {
-    public class NullableType
+    public class NullableTypes
     {
-        static Type GenericNullableType = typeof(Nullable<>);
-        public NullableType(Type type)
+        public static Type GeneralNullableType = typeof(Nullable<>);
+        public NullableTypes(Type type)
         {
-            if (type.GUID == GenericNullableType.GUID)
+            if (type.GUID == GeneralNullableType.GUID)
             {
                 this.IsNullable = true;
                 this.OrignalType = type;
@@ -24,6 +25,16 @@ namespace Yitec
                 this.ActualType = type;
             }
         }
+
+        public static Type MakeGeneric(Type genericType) {
+            return GeneralNullableType.MakeGenericType(genericType);
+        }
+
+        public static implicit operator NullableTypes(Type rawType) {
+            return new NullableTypes(rawType);
+        }
+
+        
         /// <summary>
         /// 是否是Nullable
         /// </summary>
@@ -36,6 +47,52 @@ namespace Yitec
         /// Nullable里面的类型
         /// </summary>
         public Type ActualType { get; private set; }
+
+        public static object GetDefaultValue(NullableTypes nullableType) {
+            var type = nullableType.ActualType;
+            if (type == typeof(byte)) return new Nullable<byte>();
+            if (type == typeof(short)) return new Nullable<short>();
+            if (type == typeof(ushort)) return new Nullable<ushort>();
+            if (type == typeof(int)) return new Nullable<int>();
+            if (type == typeof(uint)) return new Nullable<uint>();
+            if (type == typeof(long)) return new Nullable<long>();
+            if (type == typeof(ulong)) return new Nullable<ulong>();
+            if (type == typeof(decimal)) return new Nullable<decimal>();
+            if (type == typeof(float)) return new Nullable<float>();
+            if (type == typeof(double)) return new Nullable<double>();
+            if (type == typeof(Guid)) return new Nullable<Guid>();
+            if (type == typeof(DateTime)) return new Nullable<DateTime>();
+            if (type == typeof(DateTime)) return new Nullable<DateTime>();
+            if (type.IsEnum) return GeneralNullableType.MakeGenericType(type).GetConstructor(Type.EmptyTypes).Invoke(new object[] { });
+            return null;
+        }
+        readonly static Type NullableTypeType = typeof(NullableTypes);
+        readonly static Dictionary<int, Func<string, object>> Parsers = new Dictionary<int, Func<string, object>>{
+            { typeof(byte).GetHashCode(),(input)=>NullableTypes.ParseByte(input)}
+            ,{ typeof(short).GetHashCode(),(input)=>NullableTypes.ParseInt16(input)}
+            ,{ typeof(ushort).GetHashCode(),(input)=>NullableTypes.ParseUInt16(input)}
+            ,{ typeof(int).GetHashCode(),(input)=>NullableTypes.ParseInt32(input)}
+            ,{ typeof(uint).GetHashCode(),(input)=>NullableTypes.ParseUInt32(input)}
+            ,{ typeof(long).GetHashCode(),(input)=>NullableTypes.ParseInt64(input)}
+            ,{ typeof(long).GetHashCode(),(input)=>NullableTypes.ParseUInt64(input)}
+            ,{ typeof(float).GetHashCode(),(input)=>NullableTypes.ParseSingle(input)}
+            ,{ typeof(double).GetHashCode(),(input)=>NullableTypes.ParseDouble(input)}
+            ,{ typeof(bool).GetHashCode(),(input)=>NullableTypes.ParseBoolean(input)}
+            ,{ typeof(decimal).GetHashCode(),(input)=>NullableTypes.ParseDecimal(input)}
+            ,{ typeof(Guid).GetHashCode(),(input)=>NullableTypes.ParseGuid(input)}
+            ,{ typeof(DateTime).GetHashCode(),(input)=>NullableTypes.ParseDateTime(input)}
+
+        };
+
+        public static Func<string, object> GetParser(NullableTypes type)
+        {
+            if (!type.IsNullable) return null;
+            Func<string, object> result = null;
+            if (Parsers.TryGetValue(type.ActualType.GetHashCode(), out result)) return result;
+            
+            return result;
+        }
+
 
         public static byte? ParseByte(string input)
         {
@@ -135,11 +192,14 @@ namespace Yitec
             return null;
         }
 
+        static System.Text.RegularExpressions.Regex NumberRegx = new System.Text.RegularExpressions.Regex("^\\d+$");
+
         public static T? ParseEnum<T>(string input)
             where T : struct
         {
             T value = default(T);
             if (EnumType.TryParse<T>(input, out value)) return new Nullable<T>(value);
+            
             return null;
         }
 

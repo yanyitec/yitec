@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace Yitec.Controller
 {
-    public class CommandFactory : ICommandFactory
+    public class ActionFactory : ICommandFactory
     {
-        SortedDictionary<string, SortedDictionary<string, Dictionary<HttpMethods, ICommand>>> _Datas = new SortedDictionary<string, SortedDictionary<string, Dictionary<HttpMethods, ICommand>>>();
+        SortedDictionary<string, SortedDictionary<string, Dictionary<HttpMethods, IAction>>> _Datas = new SortedDictionary<string, SortedDictionary<string, Dictionary<HttpMethods, IAction>>>();
 
-        public void AddCommand(string controllerName, string actionName,HttpMethods method, ICommand cmd) {
-            SortedDictionary<string, Dictionary<HttpMethods, ICommand>> actions = null;
+        public void AddCommand(string controllerName, string actionName,HttpMethods method, IAction cmd) {
+            SortedDictionary<string, Dictionary<HttpMethods, IAction>> actions = null;
             if (!_Datas.TryGetValue(controllerName, out actions)) {
-                actions = new SortedDictionary<string, Dictionary<HttpMethods, ICommand>>();
+                actions = new SortedDictionary<string, Dictionary<HttpMethods, IAction>>();
                 _Datas.Add(controllerName,actions);
             }
-            Dictionary<HttpMethods, ICommand> methods = null;
+            Dictionary<HttpMethods, IAction> methods = null;
             if (!actions.TryGetValue(actionName, out methods)) {
-                methods = new Dictionary<HttpMethods, ICommand>();
+                methods = new Dictionary<HttpMethods, IAction>();
                 actions.Add(actionName,methods);
             }
             if (((int)method & (int)HttpMethods.GET) > 0) {
@@ -45,14 +45,14 @@ namespace Yitec.Controller
             }
         }
 
-        public ICommand GetOrCreateCommand(RouteData routeData,HttpMethods method,Context context)
+        public IAction GetOrCreateCommand(RouteData routeData,HttpMethods method,Context context)
         {
-            SortedDictionary<string, Dictionary<HttpMethods,ICommand>> actions = null;
+            SortedDictionary<string, Dictionary<HttpMethods,IAction>> actions = null;
             if (!_Datas.TryGetValue(routeData.ControllerName, out actions))
             {
                 return null;
             }
-            Dictionary<HttpMethods, ICommand> methods = null;
+            Dictionary<HttpMethods, IAction> methods = null;
             if (!actions.TryGetValue(routeData.ActionName, out methods))
             {
                 return null;
