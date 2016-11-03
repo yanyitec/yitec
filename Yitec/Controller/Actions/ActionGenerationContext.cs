@@ -6,14 +6,14 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Yitec.Controller
+namespace Yitec.Controller.Actions
 {
     /// <summary>
     /// 构建命令所需要的上下文信息
     /// </summary>
-    public class BuildActionContext
+    public class ActionGenerationContext
     {
-        public BuildActionContext(MethodInfo actionMethodInfo, Func<ParameterInfo , string , HttpMethods , Func<ParameterInfo, IArguments, IRequest, Context, object>> binderFactory=null) {
+        public ActionGenerationContext(MethodInfo actionMethodInfo, Func<ParameterInfo , string , HttpMethods , Func<ParameterInfo, IArguments, IRequest, Context, object>> binderFactory=null) {
             this.ActionMethodInfo = actionMethodInfo;
             ArgumentsExpression = Expression.Parameter(typeof(IArguments),"_ARGUMENTS");
             RequestExpression = Expression.Parameter(typeof(IRequest),"_REQUEST");
@@ -22,16 +22,15 @@ namespace Yitec.Controller
             this.LocalVarExpressions = new List<ParameterExpression>();
             this.ControllerInstanceExpression = Expression.Parameter(typeof(object),"_INSTANCE");
             this.BinderFactory = binderFactory;
-        }
-        protected BuildActionContext(BuildActionContext context) {
-            this.ActionMethodInfo = context.ActionMethodInfo;
             
+        }
+        protected ActionGenerationContext(ActionGenerationContext context) {
+            this.ActionMethodInfo = context.ActionMethodInfo;
             this.ArgumentsExpression = context.ArgumentsExpression;
             this.RequestExpression = context.RequestExpression;
             this.ContextExpression = context.ContextExpression;
             this.CodeExpressions = context.CodeExpressions;
             this.LocalVarExpressions = context.LocalVarExpressions;
-
             this.BinderFactory = context.BinderFactory;
         }
         public string CommandText { get; private set; }

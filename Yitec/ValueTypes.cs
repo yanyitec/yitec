@@ -8,7 +8,7 @@ namespace Yitec
 {
     public static class ValueTypes
     {
-        static SortedDictionary<int, Func<string, object>> parsers = new SortedDictionary<int, Func<string, object>>() {
+        static IDictionary<int, Func<string, object>> parsers = new SortedDictionary<int, Func<string, object>>() {
              { typeof(byte).GetHashCode(),new Func<string,object>(ParseByte)}
             ,{ typeof(bool).GetHashCode(),new Func<string,object>(ParseBoolean)}
             ,{ typeof(short).GetHashCode(),new Func<string,object>(ParseInt16)}
@@ -18,7 +18,6 @@ namespace Yitec
             ,{ typeof(long).GetHashCode(),new Func<string,object>(ParseInt64)}
             ,{ typeof(ulong).GetHashCode(),new Func<string,object>(ParseUInt64)}
             ,{ typeof(decimal).GetHashCode(),new Func<string,object>(ParseDecimal)}
-            ,{ typeof(double).GetHashCode(),new Func<string,object>(ParseDouble)}
             ,{ typeof(float).GetHashCode(),new Func<string,object>(ParseSingle)}
             ,{ typeof(double).GetHashCode(),new Func<string,object>(ParseDouble)}
             ,{ typeof(Guid).GetHashCode(),new Func<string,object>(ParseGuid)}
@@ -26,12 +25,27 @@ namespace Yitec
         };
         public static Func<string, object> GetParser(Type type) {
             Func<string, object> result = null;
-            parsers.TryGetValue(type.GetHashCode(), out result);
+            if (parsers.TryGetValue(type.GetHashCode(), out result)) return result;
+            if (type.IsEnum) {
+                return (input) => {
+                    int val = 0;
+                    if (int.TryParse(input, out val))
+                    {
+                        return Enum.ToObject(type, val);
+                    }
+                    else {
+                        var obj = Enum.Parse(type, input);
+                        if (obj != null) return obj;
+                    }                    
+                    return null;
+                };
+            }
             return result;
         }
 
         public static object GetDefaultValue(Type type)
         {
+            if (type == typeof(string)) return null;
             if (
                 type == typeof(byte)
                 || type == typeof(short)

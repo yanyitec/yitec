@@ -10,6 +10,23 @@ namespace Yitec
     public class NullableTypes
     {
         public static Type GeneralNullableType = typeof(Nullable<>);
+        readonly static Type NullableTypeType = typeof(NullableTypes);
+        readonly static Dictionary<int, Func<string, object>> Parsers = new Dictionary<int, Func<string, object>>{
+            { typeof(byte).GetHashCode(),(input)=>NullableTypes.ParseByte(input)}
+            ,{ typeof(short).GetHashCode(),(input)=>NullableTypes.ParseInt16(input)}
+            ,{ typeof(ushort).GetHashCode(),(input)=>NullableTypes.ParseUInt16(input)}
+            ,{ typeof(int).GetHashCode(),(input)=>NullableTypes.ParseInt32(input)}
+            ,{ typeof(uint).GetHashCode(),(input)=>NullableTypes.ParseUInt32(input)}
+            ,{ typeof(long).GetHashCode(),(input)=>NullableTypes.ParseInt64(input)}
+            ,{ typeof(ulong).GetHashCode(),(input)=>NullableTypes.ParseUInt64(input)}
+            ,{ typeof(float).GetHashCode(),(input)=>NullableTypes.ParseSingle(input)}
+            ,{ typeof(double).GetHashCode(),(input)=>NullableTypes.ParseDouble(input)}
+            ,{ typeof(bool).GetHashCode(),(input)=>NullableTypes.ParseBoolean(input)}
+            ,{ typeof(decimal).GetHashCode(),(input)=>NullableTypes.ParseDecimal(input)}
+            ,{ typeof(Guid).GetHashCode(),(input)=>NullableTypes.ParseGuid(input)}
+            ,{ typeof(DateTime).GetHashCode(),(input)=>NullableTypes.ParseDateTime(input)}
+
+        };
         public NullableTypes(Type type)
         {
             if (type.GUID == GeneralNullableType.GUID)
@@ -66,23 +83,7 @@ namespace Yitec
             if (type.IsEnum) return GeneralNullableType.MakeGenericType(type).GetConstructor(Type.EmptyTypes).Invoke(new object[] { });
             return null;
         }
-        readonly static Type NullableTypeType = typeof(NullableTypes);
-        readonly static Dictionary<int, Func<string, object>> Parsers = new Dictionary<int, Func<string, object>>{
-            { typeof(byte).GetHashCode(),(input)=>NullableTypes.ParseByte(input)}
-            ,{ typeof(short).GetHashCode(),(input)=>NullableTypes.ParseInt16(input)}
-            ,{ typeof(ushort).GetHashCode(),(input)=>NullableTypes.ParseUInt16(input)}
-            ,{ typeof(int).GetHashCode(),(input)=>NullableTypes.ParseInt32(input)}
-            ,{ typeof(uint).GetHashCode(),(input)=>NullableTypes.ParseUInt32(input)}
-            ,{ typeof(long).GetHashCode(),(input)=>NullableTypes.ParseInt64(input)}
-            ,{ typeof(long).GetHashCode(),(input)=>NullableTypes.ParseUInt64(input)}
-            ,{ typeof(float).GetHashCode(),(input)=>NullableTypes.ParseSingle(input)}
-            ,{ typeof(double).GetHashCode(),(input)=>NullableTypes.ParseDouble(input)}
-            ,{ typeof(bool).GetHashCode(),(input)=>NullableTypes.ParseBoolean(input)}
-            ,{ typeof(decimal).GetHashCode(),(input)=>NullableTypes.ParseDecimal(input)}
-            ,{ typeof(Guid).GetHashCode(),(input)=>NullableTypes.ParseGuid(input)}
-            ,{ typeof(DateTime).GetHashCode(),(input)=>NullableTypes.ParseDateTime(input)}
-
-        };
+        
 
         public static Func<string, object> GetParser(NullableTypes type)
         {

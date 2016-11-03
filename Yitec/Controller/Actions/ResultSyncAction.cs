@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Yitec.Controller
+namespace Yitec.Controller.Actions
 {
     class ResultSyncAction : IAction
     {

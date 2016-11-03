@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Yitec.Controller
+namespace Yitec.Controller.Actions
 {
-    public class ActionFactory : ICommandFactory
+    public class ActionFactory : IActionFactory
     {
         SortedDictionary<string, SortedDictionary<string, Dictionary<HttpMethods, IAction>>> _Datas = new SortedDictionary<string, SortedDictionary<string, Dictionary<HttpMethods, IAction>>>();
 

@@ -3,24 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Yitec.Controller.Actions;
 
 namespace Yitec.Controller
 {
     public abstract class Dispacher : IDispacher
     {
-        public Dispacher(ICommandFactory commandFactory, IControllerFactoryFactory controllerFactory) {
-            this.CommandFactory = commandFactory;
+        public Dispacher(IActionFactory commandFactory) {
+            this.ActionFactory = commandFactory;
             //this.BinderFactory = binderFactory;
         }
 
-        public ICommandFactory CommandFactory
+        public IActionFactory ActionFactory
         {
             get; protected set;
         }
 
-        public IControllerFactoryFactory ControllerFactory {
-            get;protected set;
-        }
+      
 
         
 
@@ -41,7 +40,7 @@ namespace Yitec.Controller
         protected abstract Task<IArguments> CreateArgumentsAsync(IRequest request, RouteData routeData, Context context);
 
         protected virtual IAction GetOrCreateCommand(RouteData routeData,HttpMethods method,Context context) {
-            return this.CommandFactory.GetOrCreateCommand(routeData,method,context);
+            return this.ActionFactory.GetOrCreateCommand(routeData,method,context);
         }
 
         protected virtual object GetOrCreateController(IAction cmd,RouteData routeData,Context context) {
@@ -61,7 +60,7 @@ namespace Yitec.Controller
             context.RouteData = routeData;
             
             //找出命令
-            var cmd = context.Command = this.CommandFactory.GetOrCreateCommand(context.RouteData,context.Request.Method,context);
+            var cmd = context.Action = this.ActionFactory.GetOrCreateCommand(context.RouteData,context.Request.Method,context);
             //创建执行主体
             var controllerInstance = context.ControllerInstance = this.GetOrCreateController(cmd, routeData, context);
 

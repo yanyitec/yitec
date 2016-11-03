@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Yitec.Controller
+namespace Yitec.Controller.Actions
 {
     public interface ICommandLoader
     {
-        ICommandFactory Load();
+        IActionFactory Load();
     }
 }

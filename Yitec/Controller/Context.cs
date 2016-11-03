@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Yitec.Controller.Actions;
 
 namespace Yitec.Controller
 {
@@ -22,7 +23,7 @@ namespace Yitec.Controller
 
         public IArguments Arguments { get; set; }
 
-        public IAction Command { get; set; }
+        public IAction Action { get; set; }
 
         public object ControllerInstance { get; set; }
 

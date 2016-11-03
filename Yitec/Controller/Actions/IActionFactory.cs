@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Yitec.Controller
+namespace Yitec.Controller.Actions
 {
-    public interface ICommandFactory
+    public interface IActionFactory
     {
         IAction GetOrCreateCommand(RouteData routeData,HttpMethods method,Context context);
 
